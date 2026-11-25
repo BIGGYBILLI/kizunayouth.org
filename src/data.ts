@@ -3,6 +3,16 @@
 /** Public asset path, correct at the domain root and under the Pages subpath. */
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 
+/** The site is served from `/` locally and from `/<repo>/` on GitHub Pages. */
+export const BASE = import.meta.env.BASE_URL
+/** Link to a page (`''` for the home page), correct under any base path. */
+export const pageHref = (path = '') => `${BASE}${path.replace(/^\/+/, '')}`
+/** Link to a section on the home page from anywhere in the site. */
+export const homeHref = (hash = '') => `${BASE}${hash}`
+
+const mailto = (subject: string, body?: string) =>
+  `mailto:kizunayouth.co@gmail.com?subject=${encodeURIComponent(subject)}${body ? `&body=${encodeURIComponent(body)}` : ''}`
+
 export const SITE = {
   name: 'Kizuna Youth Project',
   kanji: '絆',
@@ -13,14 +23,14 @@ export const SITE = {
   instagram: { handle: '@kizunayouth.co', href: 'https://www.instagram.com/kizunayouth.co/' },
   instagramShort: '@kizunayouth.co',
   regions: ['India', 'Philippines', 'Bangladesh'],
-  ledBy: 'Led by students in India, the Philippines and Bangladesh.',
 }
 
 export const NAV = [
-  { label: 'Story', href: '#story' },
-  { label: 'Guidance', href: '#guidance' },
-  { label: 'Team', href: '#team' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Story', href: homeHref('#story') },
+  { label: 'Guidance', href: homeHref('#guidance') },
+  { label: 'Team', href: homeHref('#team') },
+  { label: 'Services', href: pageHref('services/') },
+  { label: 'Workshop', href: pageHref('workshop/') },
 ]
 
 export const HERO = {
@@ -32,8 +42,24 @@ export const HERO = {
   primary: { label: 'Explore guidance', href: '#guidance' },
   secondary: { label: 'Meet the team', href: '#team' },
   chips: ['Language & culture', 'University & scholarship guidance', 'Free school workshops'],
-  scroll: 'Scroll',
-  caption: '絆 — a bond that brings us closer.',
+}
+
+/** The quiet proof panel in the hero, in place of the old 3D rings. */
+export const HERO_PANEL = {
+  eyebrow: 'The bond in practice',
+  title: 'A bond measured in',
+  titleAccent: 'classrooms.',
+  jp: '日本と世界 — Japan and the world',
+  stats: [
+    { value: '3', label: 'Countries', note: 'India, the Philippines and Bangladesh. Brunei has just begun.' },
+    { value: '20', label: 'Volunteers in India', note: 'Students teaching students, in their own classrooms.' },
+    { value: '2', label: 'Partner schools', note: 'Two-day workshops in Araria, Bihar — each with a certificate of appreciation.' },
+  ],
+  footnote: {
+    label: 'Sakura Quest 2026',
+    body: 'Our founder and co-founder interpreted live for Japanese universities and high schools.',
+  },
+  link: { label: 'See our work so far', href: `${pageHref('workshop/')}#work` },
 }
 
 export const MEANING = {
@@ -271,12 +297,396 @@ export const FOOTER = {
     {
       title: 'Explore',
       links: [
-        { label: 'Story', href: '#story' },
-        { label: 'Guidance', href: '#guidance' },
-        { label: 'Team', href: '#team' },
-        { label: 'FAQ', href: '#faq' },
+        { label: 'Story', href: homeHref('#story') },
+        { label: 'Guidance', href: homeHref('#guidance') },
+        { label: 'Team', href: homeHref('#team') },
+        { label: 'Services', href: pageHref('services/') },
+        { label: 'Workshop', href: pageHref('workshop/') },
+        { label: 'FAQ', href: homeHref('#faq') },
       ],
     },
   ],
   legal: `© ${new Date().getFullYear()} Kizuna Youth Project`,
+}
+
+/* ────────────────────────── Student services page ────────────────────────── */
+
+export type ServiceEntry = {
+  index: string
+  jp: string
+  title: string
+  bestFor: string
+  body: string
+  points: string[]
+  note?: string
+}
+
+export const SERVICES_PAGE = {
+  eyebrow: 'Student services · 日本',
+  titleBefore: 'Your path to Japan, guided by',
+  titleAccent: 'students who walked it first.',
+  lead: 'One-to-one help for students, professionals and families — online, wherever you are. Choose a single service or combine them as your journey grows. Pricing is shared when you enquire.',
+  chips: ['Counselling', 'Applications', 'Language', 'Visa'],
+  cta: { label: 'Enquire about a service', href: mailto('Student services enquiry') },
+  note: 'Not sure where to start? Begin with the Roadmap Package or a counselling session — we will help you decide what comes next.',
+  why: {
+    eyebrow: 'Why Kizuna',
+    titleBefore: 'Someone who has done it,',
+    titleAccent: 'sitting beside you.',
+    items: [
+      {
+        key: 'Japanese nationals beside us',
+        body: 'Japanese colleagues help guide our work, so what we tell you is current and grounded in how things really work in Japan.',
+      },
+      {
+        key: 'Real interpreting experience',
+        body: 'At Sakura Quest 2026 our founder and co-founder interpreted live for Japanese universities and high schools.',
+      },
+      {
+        key: 'Honest, personal guidance',
+        body: 'We never promise admission or a scholarship. You get clear information, a real plan and someone to ask.',
+      },
+    ],
+  },
+  glance: {
+    eyebrow: 'At a glance',
+    title: 'Seven services, one thread.',
+    intro: 'Every service is one-to-one and can be done online. Pick one, or combine them.',
+  },
+  services: [
+    {
+      index: '01',
+      jp: '計画',
+      title: 'Japan Roadmap Package',
+      bestFor: 'Best for students at the very start',
+      body: 'A personal plan for Japan built from your own profile, with one-to-one guidance and a month of support behind it.',
+      points: [
+        'Profile assessment: strengths, gaps and realistic options',
+        'One-to-one guidance session, 45 to 60 minutes',
+        'A personal roadmap with exams, documents and deadlines',
+        '30 days of doubt-solving by private chat',
+        'One follow-up check-in to update the roadmap',
+      ],
+    },
+    {
+      index: '02',
+      jp: '相談',
+      title: 'Individual Counselling',
+      bestFor: 'Best for anyone with questions about Japan',
+      body: 'A one-to-one session with a team member who has been through the process themselves.',
+      points: [
+        'Talk through your goals: university, language school, scholarships or work',
+        'Honest advice on your options and what to expect',
+        'Answers to your questions about life and study in Japan',
+        'A clear idea of your next steps',
+      ],
+    },
+    {
+      index: '03',
+      jp: '出願',
+      title: 'University Application Support',
+      bestFor: 'Best for students ready to apply',
+      body: 'Hands-on guidance for each university you apply to. The application stays yours; we guide and review.',
+      points: [
+        'Understanding requirements, deadlines and eligibility',
+        'Document checklist and review',
+        'Guidance on statements and essays',
+        'Application form guidance',
+        'Interview preparation',
+      ],
+      note: 'Support is provided per university.',
+    },
+    {
+      index: '04',
+      jp: '語学学校',
+      title: 'Language School in Japan Support',
+      bestFor: 'Best for students starting with language study',
+      body: 'Guidance for students who plan to begin in Japan with a language school before university.',
+      points: [
+        'Choosing a school that fits your goals and plans',
+        'Understanding courses, locations and how the pathway works',
+        'Application documents and guidance',
+        'Planning how language study can lead to university',
+      ],
+      note: 'Support varies with each student’s situation.',
+    },
+    {
+      index: '05',
+      jp: '日本語',
+      title: 'Japanese Language Classes',
+      bestFor: 'Best for beginners and learners',
+      body: 'Structured online classes with team members who know Japanese and know how to teach it.',
+      points: [
+        'Beginner (N5) batches, including fast-track options',
+        'Taught online, so you can join from anywhere',
+        'Clear lessons, practice and regular feedback',
+        'More levels as our classes grow',
+      ],
+      note: 'Class times and instructor names are shared when you enquire.',
+    },
+    {
+      index: '06',
+      jp: '個人授業',
+      title: 'Private Tutoring',
+      bestFor: 'Best for learners who want one-to-one focus',
+      body: 'Personal lessons shaped around your level and your goals.',
+      points: [
+        'JLPT preparation',
+        'Speaking and conversation practice',
+        'Interview practice for study or work',
+        'Japanese for the situation you are preparing for',
+      ],
+    },
+    {
+      index: '07',
+      jp: 'ビザ',
+      title: 'Kizuna Visa Support',
+      bestFor: 'Best for students, professionals, families and travellers',
+      body: 'Open to everyone. We help you prepare a clear, complete and honest visa application for Japan.',
+      points: [
+        'Visa pathway and eligibility guidance',
+        'Document preparation',
+        'Proofreading and review of your documents',
+        'Application guidance from start to finish',
+      ],
+      note: 'Visa decisions are made by the authorities. Our role is to help you prepare the strongest honest application you can.',
+    },
+  ] as ServiceEntry[],
+  refund: {
+    eyebrow: 'Our refund promise',
+    title: 'If your visa is rejected, we refund 100% of your Visa Support fee.',
+    lead: 'The promise holds on four conditions:',
+    conditions: [
+      'You follow our guidance',
+      'You work with Kizuna throughout the process',
+      'The documents you give us are genuine',
+      'You share the rejection notice with us',
+    ],
+    note: 'No refund is given where documents are forged or misrepresented.',
+  },
+  start: {
+    eyebrow: 'How to get started',
+    title: 'Four steps, no forms to decode.',
+    steps: [
+      { index: '01', title: 'Message us', body: 'Email or Instagram. Tell us which service you are interested in.' },
+      { index: '02', title: 'Share your goal', body: 'Where you are, your country, and what you hope to do in Japan.' },
+      { index: '03', title: 'Get the details', body: 'We reply with how it works, the timings and the pricing.' },
+      { index: '04', title: 'Begin', body: 'Confirm, and we start working with you.' },
+    ],
+  },
+  know: {
+    eyebrow: 'Good to know',
+    items: [
+      {
+        q: 'Where are you based?',
+        a: 'Our services are online, so you can work with us from anywhere. We schedule around your time zone where we can.',
+      },
+      { q: 'How much does it cost?', a: 'Pricing is shared when you enquire and depends on the service.' },
+      {
+        q: 'Can I combine services?',
+        a: 'Yes. Many students start with the Roadmap Package or a counselling session, then add application support, classes or tutoring.',
+      },
+      {
+        q: 'Do you guarantee admission or a scholarship?',
+        a: 'No. We never promise admission or scholarships. Visa Support carries the refund promise above.',
+      },
+    ],
+  },
+}
+
+/* ─────────────────────────── Workshop page ─────────────────────────── */
+
+export const WORKSHOP_PAGE = {
+  eyebrow: 'School workshops · 無料',
+  titleBefore: 'Free Japan workshops',
+  titleAccent: 'for your school.',
+  lead: 'A student-led team that learned Japanese on its own, applied on its own and was accepted to Japanese universities with scholarships — now teaching what we learned, at no cost to your school.',
+  facts: [
+    { key: 'Free', body: 'No cost to your school or your students.' },
+    { key: '1–2 days', body: 'Or a 45-minute taster to start.' },
+    { key: 'Online or in person', body: 'We adapt to what suits your school.' },
+    { key: 'Class 8–12', body: 'Pitched at secondary students, adjusted to your group.' },
+  ],
+  cta: { label: 'Request a workshop', href: '#request' },
+  letter: {
+    eyebrow: 'A note to your principal and teachers',
+    title: 'A free Japan workshop for your students.',
+    paragraphs: [
+      'Many of your students are already curious about Japan: its language, its food, its technology, its culture. Some quietly dream of studying or working there one day. But they rarely know where to begin, and there is often no one around who can tell them.',
+      'Kizuna Youth Project exists to change that. We are a student-led team: our founders learned Japanese on their own, applied on their own, and were accepted to Japanese universities with scholarships. Now we teach what we learned to other students, for free.',
+      'We would like to hold a workshop at your school. It costs your school nothing, takes one or two days — or just 45 minutes as a first taster — and gives students a clear, honest picture of Japan and the real routes to get there.',
+    ],
+    signoff: [
+      { name: 'Md Shadur Rahman (Haru)', role: 'Founder, Kizuna Youth Project' },
+      { name: 'Areen Joy Lahari', role: 'Co-founder, Kizuna Youth Project' },
+    ],
+  },
+  promise: {
+    title: 'Our promise to your school',
+    items: [
+      'Always free for the school. We never charge a school for a workshop.',
+      'Honest information only. No false promises about admission or scholarships.',
+      'Student safety first. Our volunteers follow written safeguarding rules.',
+    ],
+  },
+  gains: {
+    eyebrow: 'Why Japan, and why now',
+    title: 'What your students gain.',
+    intro:
+      'India’s National Education Policy 2020 encourages students to learn beyond their own language and names Japanese among the foreign languages that can be offered at secondary level. The interest is already there.',
+    items: [
+      {
+        index: '01',
+        title: 'A real first look at the world',
+        body: 'Students see another language and culture up close, not through a screen — and widen how they think about their own future.',
+      },
+      {
+        index: '02',
+        title: 'A real language start',
+        body: 'Greetings, self-introduction and their first characters: a first step that can grow into the JLPT, the standard Japanese language test.',
+      },
+      {
+        index: '03',
+        title: 'Honest, clear pathways',
+        body: 'How students from India actually reach Japan — universities, scholarships such as MEXT, language schools and careers. No agents, no hidden fees, no false promises.',
+      },
+      {
+        index: '04',
+        title: 'Role models close to their age',
+        body: 'Instructors who are students themselves, who did it on their own, so students can picture themselves doing the same.',
+      },
+    ],
+  },
+  modules: {
+    eyebrow: 'The four modules',
+    title: 'Hands-on, with time for questions.',
+    intro: 'Each module uses activities, quizzes and discussion. Schools can host all four or choose the ones that fit best.',
+    items: [
+      {
+        index: '01',
+        jp: '日本語',
+        title: 'Japanese language basics',
+        body: 'Students will learn to:',
+        points: [
+          'Greet people and introduce themselves in Japanese',
+          'Read and write their first characters',
+          'Practise short everyday phrases through games and pair work',
+        ],
+      },
+      {
+        index: '02',
+        jp: '文化',
+        title: 'Culture and traditions',
+        body: 'Students will learn about:',
+        points: [
+          'Festivals, food, etiquette and everyday school life in Japan',
+          'How traditions shape modern Japan, from tea ceremony to anime',
+          'Quizzes and fun facts that spark curiosity',
+        ],
+      },
+      {
+        index: '03',
+        jp: '留学',
+        title: 'Opportunities in Japan',
+        body: 'Students will learn about:',
+        points: [
+          'Japanese universities, scholarships such as MEXT, and the JLPT',
+          'How to start preparing from school, and when',
+          'What study in Japan really involves',
+        ],
+      },
+      {
+        index: '04',
+        jp: '進路',
+        title: 'Careers and pathways',
+        body: 'Students will learn about:',
+        points: [
+          'Where Japanese skills lead: interpreting, technology, research, business and more',
+          'The main routes to Japan and how they differ',
+          'Real stories from our own team',
+        ],
+      },
+    ],
+  },
+  formats: {
+    eyebrow: 'How a workshop works',
+    title: 'Choose the format that fits your school.',
+    rows: [
+      { format: 'Taster', length: '45 minutes', bestFor: 'A first look at all four modules, in one period or an assembly.' },
+      { format: 'One-day workshop', length: 'One school day', bestFor: 'All four modules with activities, quizzes and a question time.' },
+      { format: 'Two-day workshop', length: 'Two days', bestFor: 'Deeper practice and a full pathways session — the format we ran at our first two partner schools.' },
+    ],
+    note: 'Every format is available online or in person.',
+  },
+  bring: {
+    title: 'What we bring',
+    items: [
+      'Trained student instructors',
+      'Ready-made slides and activities',
+      'Quizzes, fun facts and real stories',
+      'A hosting plan agreed with you in advance',
+    ],
+  },
+  ask: {
+    title: 'What we ask of the school',
+    items: [
+      'A room or online link for the session',
+      'A projector or screen, if available',
+      'A short hosting certificate for Kizuna, and one for the instructor',
+      'Permission to take a few photos and short videos as a record, following your school’s rules on student images',
+    ],
+  },
+  safety: {
+    title: 'Trust and student safety',
+    items: [
+      'Our volunteers follow written safeguarding rules in every school session.',
+      'School sessions are for learning only. We do not sell anything to students in the workshop.',
+      'Kizuna also offers optional paid services. Any information for parents is shared only through the school.',
+    ],
+  },
+  work: {
+    eyebrow: 'Our work so far',
+    title: 'Already in classrooms.',
+    intro: 'We have run two-day workshops at schools in Araria, Bihar. Both schools issued certificates of appreciation.',
+    workshops: [
+      { title: 'Two-day school workshop', place: 'Araria, Bihar', when: '29–30 May 2026', note: 'Certificate of appreciation issued' },
+      { title: 'Two-day school workshop', place: 'Araria, Bihar', when: '3 and 6 August 2026', note: 'Certificate of appreciation issued' },
+    ],
+    sakura: {
+      title: 'Sakura Quest 2026',
+      body: 'Both of our founders took on a real, live role at Sakura Quest 2026, working directly with Japanese universities and high schools.',
+      points: [
+        'Md Shadur Rahman (Haru), founder — interpreted live for Japanese universities and high schools',
+        'Areen Joy Lahari, co-founder — interpreted live for Japanese universities and high schools',
+      ],
+    },
+    reach: {
+      title: 'A growing team, and a growing reach',
+      body: 'Kizuna started in India and is now beginning activities in the Philippines and Bangladesh, and has started operating in Brunei. In India we work with around 20 volunteers.',
+      people: [
+        { name: 'Md Shadur Rahman (Haru)', role: 'Founder', note: 'Japanese at N2 level. Japanese and English interpreter. Teaches Japanese and English.' },
+        { name: 'Areen Joy Lahari', role: 'Co-founder', note: 'JLPT N3 certified. Took part in the Japan Youth Summit. Travelled to Japan at 17. Interpreted live at Sakura Quest 2026.' },
+        { name: 'Iftekhar Mahmud Razwan', role: 'Bangladesh representative', note: 'Environment activist. Guides students from Bangladesh toward Japan.' },
+        { name: 'Calacar Loraine Andrea', role: 'Philippines representative', note: 'JLPT N3 certified. Exchange student in Japan. Asia Kakehashi Project+ alumna.' },
+      ],
+    },
+  },
+  process: {
+    eyebrow: 'Bring Kizuna to your school',
+    title: 'Meet, choose, confirm, teach.',
+    steps: [
+      { index: '01', title: 'Meet', body: 'A short 15-minute chat, in person or by call.' },
+      { index: '02', title: 'Choose', body: 'Pick the format, modules and dates that fit.' },
+      { index: '03', title: 'Confirm', body: 'We agree the room, the teacher and the plan together.' },
+      { index: '04', title: 'Workshop', body: 'We teach, then collect feedback and certificates.' },
+    ],
+  },
+  form: {
+    eyebrow: 'Workshop request form',
+    title: 'Request a workshop.',
+    intro:
+      'Fill this in and press send — it opens your email app with the details already written, addressed to our team. You can also simply write to us on Instagram.',
+    submit: 'Send the request',
+    success: 'Your request is written and your email app should be open. If nothing happened, use the button below.',
+  },
 }

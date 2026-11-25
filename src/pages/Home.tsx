@@ -2,13 +2,53 @@ import { AnimatePresence, motion, useScroll, useTransform } from 'motion/react'
 import { useRef, useState } from 'react'
 
 import { ArrowLink, Eyebrow, Reveal, Seal, SectionMark, Stamp } from '../components/Chrome'
-import { BondScene } from '../components/Scene3D'
+import { CONTAINER } from '../components/Page'
 import { TeamGrid } from '../components/Team'
-import { CONTACT, FOOTER, GUIDANCE, HERO, MEANING, PILLARS, SITE, STORY, TEAM } from '../data'
+import { CONTACT, FOOTER, GUIDANCE, HERO, HERO_PANEL, MEANING, PILLARS, SITE, STORY, TEAM } from '../data'
 import { useContent } from '../lib/content'
 import { cx } from '../lib/cx'
 
-const CONTAINER = 'mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-12'
+/** Where the interlocking rings used to sit: the same idea, told in facts. */
+function HeroPanel() {
+  return (
+    <Reveal delay={0.3} className="relative">
+      <div className="relative overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface-raised">
+        <span aria-hidden className="jp pointer-events-none absolute -top-12 -right-8 select-none text-[12rem] leading-none text-moss/[0.07]">
+          絆
+        </span>
+
+        <div className="relative p-6 sm:p-8 lg:p-9">
+          <Eyebrow>{HERO_PANEL.eyebrow}</Eyebrow>
+
+          <p className="serif mt-5 max-w-[16ch] text-[clamp(1.55rem,2.4vw,2.15rem)] leading-[1.16]">
+            {HERO_PANEL.title} <span className="text-moss italic">{HERO_PANEL.titleAccent}</span>
+          </p>
+          <p className="mt-3 text-[0.78rem] tracking-wide text-muted">{HERO_PANEL.jp}</p>
+
+          <ul className="mt-7 border-t border-line">
+            {HERO_PANEL.stats.map((stat) => (
+              <li key={stat.label} className="flex gap-5 border-b border-line py-4">
+                <span className="serif w-9 shrink-0 text-[2rem] leading-none text-moss">{stat.value}</span>
+                <span>
+                  <span className="caps block text-ink">{stat.label}</span>
+                  <span className="mt-1.5 block text-[0.83rem] leading-relaxed text-muted">{stat.note}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-6">
+            <p className="caps text-vermilion">{HERO_PANEL.footnote.label}</p>
+            <p className="mt-2 text-[0.83rem] leading-relaxed text-muted">{HERO_PANEL.footnote.body}</p>
+            <ArrowLink href={HERO_PANEL.link.href} className="mt-4 text-[0.85rem]">
+              {HERO_PANEL.link.label}
+            </ArrowLink>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  )
+}
 
 function Hero() {
   return (
@@ -75,23 +115,7 @@ function Hero() {
           </Reveal>
         </div>
 
-        <div className="relative">
-          <BondScene className="relative -mx-5 h-[46svh] min-h-[300px] w-[calc(100%+2.5rem)] outline-none sm:mx-0 sm:w-full lg:h-[64svh]" />
-          <div className="pointer-events-none absolute inset-x-2 bottom-0 flex items-end justify-between gap-4">
-            <p className="caps text-muted">{HERO.caption}</p>
-            <p className="caps hidden text-muted sm:block">Drag to turn</p>
-          </div>
-        </div>
-      </div>
-
-      <div className={CONTAINER}>
-        <div className="flex items-center justify-between gap-6 border-t border-line py-5">
-          <p className="text-[0.78rem] text-muted">{SITE.ledBy}</p>
-          <p className="caps flex items-center gap-3 text-muted">
-            {HERO.scroll}
-            <span aria-hidden className="block h-8 w-px bg-line-strong" />
-          </p>
-        </div>
+        <HeroPanel />
       </div>
     </section>
   )
