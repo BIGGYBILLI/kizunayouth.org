@@ -179,7 +179,7 @@ export const TEAM = {
       nickname: '“Haru”',
       role: 'Founder',
       jp: '創設者',
-      photo: asset('images/team/haru.webp'),
+      photo: asset('images/team/haru.webp?v=2'),
       photoAlt: 'Portrait of Md Shadur Rahman, founder of Kizuna Youth Project',
       tags: ['N2-level Japanese', 'Japanese–English interpreter', 'World–Japan bridge builder', 'Japanese & English teacher'],
       summary:
@@ -196,7 +196,7 @@ export const TEAM = {
       name: 'Areen Joy Lahari',
       role: 'Co-founder',
       jp: '共同創設者',
-      photo: asset('images/team/areen.webp'),
+      photo: asset('images/team/areen.webp?v=2'),
       photoAlt: 'Portrait of Areen Joy Lahari, co-founder of Kizuna Youth Project',
       tags: ['Travelled to Japan at 17', 'JLPT N3 certified', 'Guiding students to Japan'],
       summary:
