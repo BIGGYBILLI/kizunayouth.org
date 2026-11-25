@@ -1,0 +1,259 @@
+@import 'tailwindcss';
+
+/*
+  Kizuna Youth Project design tokens.
+  Washi paper, sumi ink, moss green, vermilion seal ink and a little sakura.
+  Serif display type carries the editorial voice; Shippori Mincho carries the
+  Japanese. Sections breathe: wide margins, hairline rules, no chrome.
+*/
+@theme {
+  --font-sans: 'Inter Tight', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Playfair Display', 'Iowan Old Style', 'Times New Roman', Georgia, serif;
+  --font-display: 'Hanken Grotesk', 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-jp: 'Shippori Mincho', 'Yu Mincho', 'Hiragino Mincho ProN', serif;
+
+  --color-washi: #f4eee1;
+  --color-paper: #fbf7ee;
+  --color-washi-deep: #e9dfca;
+
+  /* Theme-aware surfaces and accents. `washi` itself stays cream in both
+     themes: it is the paper the dark panels are printed on. */
+  --color-surface: #f4eee1;
+  --color-surface-raised: #fbf7ee;
+  --color-surface-sunk: #e9dfca;
+  --color-seal: #5b6b48;
+  --color-stamp: #b8442b;
+  --color-cta: #2b3523;
+  --color-cta-hover: #3a4830;
+  --color-ink: #1a1913;
+  --color-ink-soft: #37352c;
+  --color-muted: #6b675a;
+  --color-line: #ddd4c2;
+  --color-line-strong: #c3b9a3;
+  --color-moss: #5b6b48;
+  --color-moss-deep: #2b3523;
+  --color-moss-soft: #e5e8d6;
+  --color-vermilion: #b8442b;
+  --color-vermilion-deep: #922f1b;
+  --color-blush: #e6c3c4;
+  --color-night: #131811;
+  --color-night-soft: #1d241c;
+  --color-night-line: #333c30;
+  --color-night-muted: #a9af9c;
+
+  /* Soft light pools behind the hero and contact bands. */
+  --hero-glow: rgba(230, 195, 196, 0.28);
+  --contact-glow: rgba(91, 107, 72, 0.35);
+
+  --radius-card: 28px;
+  --radius-frame: 16px;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-drift: drift 18s ease-in-out infinite;
+  --animate-seal: seal 22s linear infinite;
+
+  @keyframes drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -12px, 0);
+    }
+  }
+  @keyframes seal {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/*
+  Dark mode. Three colours, in proportion: dark emerald #02110c carries most
+  of the page, olive green #1a422f takes the raised panels and calls to
+  action, and cream beige #f3ebd6 does the reading.
+*/
+html.dark {
+  --color-washi: #f3ebd6;
+  --color-surface: #02110c;
+  /* Each step up the stack is a clear value jump so the bands separate:
+     page #02110c, sunken band #0a2418, raised panel #0f3122. */
+  --color-surface-sunk: #081f16;
+  --color-surface-raised: #0f3122;
+  --color-seal: #1a422f;
+  --color-stamp: #1a422f;
+  --color-cta: #1a422f;
+  --color-cta-hover: #245a41;
+  --color-ink: #f3ebd6;
+  --color-ink-soft: #d8d2bb;
+  --color-muted: #9db0a1;
+  --color-line: #1b4632;
+  --color-line-strong: #2b6449;
+  --color-moss: #a9c7ad;
+  --color-moss-deep: #14402c;
+  --color-moss-soft: #17452f;
+  --color-vermilion: #f3ebd6;
+  --color-vermilion-deep: #dccfae;
+  --color-blush: #f3ebd6;
+  --color-night: #010b07;
+  --color-night-soft: #05170f;
+  --color-night-line: #1c4634;
+  --color-night-muted: #a3b5a6;
+  --hero-glow: rgba(26, 66, 47, 0.55);
+  --contact-glow: rgba(26, 66, 47, 0.5);
+  color-scheme: dark;
+}
+
+:root {
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+@layer base {
+  html {
+    background: var(--color-surface);
+    color-scheme: light;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    transition: background-color 400ms ease, color 400ms ease;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+  /* Washi grain: sits above flat colour, below dialogs and the header. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background-image: var(--grain);
+    background-size: 180px 180px;
+    opacity: 0.14;
+    mix-blend-mode: multiply;
+  }
+  /* On ink-dark surfaces the grain has to lighten instead of darken. */
+  html.dark body::before {
+    mix-blend-mode: screen;
+    opacity: 0.045;
+  }
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+  }
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-vermilion);
+    outline-offset: 3px;
+  }
+  ::selection {
+    background: var(--color-moss-deep);
+    color: var(--color-washi);
+  }
+  img {
+    user-select: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 0.98;
+}
+
+/* The grotesk companion to the display serif, for large sans lines. */
+@utility grotesk {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+@utility jp {
+  font-family: var(--font-jp);
+  font-weight: 600;
+  line-height: 1;
+}
+
+@utility caps {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+@utility vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.32em;
+}
+
+/* The arch used for portraits, echoing the Instagram post frames. */
+@utility arch {
+  border-radius: 999px 999px 8px 8px;
+  overflow: hidden;
+}
+
+@utility grain {
+  background-image: var(--grain);
+  background-size: 180px 180px;
+}
+
+.hairline {
+  height: 1px;
+  background: var(--color-line);
+}
+
+/* The country strip is a divider band: in dark mode its edges take the
+   stronger rule so it reads as its own surface against the panels above and
+   below it. Light mode keeps the hairline it has always had. */
+.band-edge {
+  border-color: var(--color-line);
+}
+html.dark .band-edge {
+  border-color: var(--color-line-strong);
+}
+
+.on-dark .hairline,
+.on-dark.hairline {
+  background: var(--color-night-line);
+}
+
+/* A dotted seam between two blocks. */
+.seam {
+  background-image: linear-gradient(to right, var(--color-line-strong) 33%, transparent 0%);
+  background-size: 8px 1px;
+  background-repeat: repeat-x;
+  height: 1px;
+}
+
+.no-scroll {
+  overflow: hidden;
+}

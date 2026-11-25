@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "creative-agency",
+  "main": "src/worker/index.ts",
+  "compatibility_date": "2026-09-29",
+  "assets": {
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": true
+  },
+  // Site content (people, FAQ, contacts) and uploaded portraits. Locally these
+  // are emulated under .wrangler/state; on Cloudflare they are created with
+  // `wrangler d1 create` / `wrangler r2 bucket create` and bound here.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kizuna-content",
+      "database_id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "r2_buckets": [{ "binding": "FILES", "bucket_name": "kizuna-media" }],
+  "observability": { "enabled": true }
+}
