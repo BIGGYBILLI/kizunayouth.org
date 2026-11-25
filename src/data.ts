@@ -1,5 +1,8 @@
 // All copy, people and links for Kizuna Youth Project live here.
 
+/** Public asset path, correct at the domain root and under the Pages subpath. */
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
+
 export const SITE = {
   name: 'Kizuna Youth Project',
   kanji: '絆',
@@ -176,7 +179,7 @@ export const TEAM = {
       nickname: '“Haru”',
       role: 'Founder',
       jp: '創設者',
-      photo: '/images/team/haru.webp',
+      photo: asset('images/team/haru.webp'),
       photoAlt: 'Portrait of Md Shadur Rahman, founder of Kizuna Youth Project',
       tags: ['N2-level Japanese', 'Japanese–English interpreter', 'World–Japan bridge builder', 'Japanese & English teacher'],
       summary:
@@ -193,7 +196,7 @@ export const TEAM = {
       name: 'Areen Joy Lahari',
       role: 'Co-founder',
       jp: '共同創設者',
-      photo: '/images/team/areen.webp',
+      photo: asset('images/team/areen.webp'),
       photoAlt: 'Portrait of Areen Joy Lahari, co-founder of Kizuna Youth Project',
       tags: ['Travelled to Japan at 17', 'JLPT N3 certified', 'Guiding students to Japan'],
       summary:
@@ -210,7 +213,7 @@ export const TEAM = {
       name: 'Iftekhar Mahmud Razwan',
       role: 'Bangladesh Country Representative',
       jp: 'バングラデシュ代表',
-      photo: '/images/team/iftekhar.webp',
+      photo: asset('images/team/iftekhar.webp'),
       photoAlt: 'Portrait of Iftekhar Mahmud Razwan, Bangladesh country representative',
       tags: ['Representative of Bangladesh', 'Bridging Bangladesh & Japan', 'Environment activist', 'Guiding students to Japan'],
       summary:

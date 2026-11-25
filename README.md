@@ -30,6 +30,13 @@ bun run typecheck
 The folder name contains a space, so `scripts/postbuild.mjs` resolves `dist`
 with `fileURLToPath` rather than a raw URL path.
 
+## Live site
+
+Pushing to `main` deploys the static client to GitHub Pages at
+<https://biggybilli.github.io/kizunayouth.org/> via
+`.github/workflows/pages.yml`. Pages serves files only, so `/admin`, the content
+API and portrait uploads return 404 there; those need the Worker on Cloudflare.
+
 ## Edit it
 
 - **`src/data.ts` holds every string, link and team entry.** Start there.
